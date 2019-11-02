@@ -1,4 +1,4 @@
-import { shallowMount } from "@vue/test-utils";
+import { shallowMount, mount } from "@vue/test-utils";
 import Cell from "@/components/Cell.vue";
 import Board from "@/components/Board.vue";
 
@@ -26,7 +26,7 @@ describe("Cell.vue", () => {
 describe("Board.vue", () => {
   let wrapper;
   beforeEach(() => {
-    wrapper = shallowMount(Board, {});
+    wrapper = mount(Board, {});
   });
   it("Cellを持っている", () => {
     expect(wrapper.contains(Cell)).toBe(true);
