@@ -15,7 +15,7 @@ export default {
   name: "Board",
   data: function () {
     return {
-      cellsStateArray: [...Array(100)].map(() => Array(100).fill(this.generateRandomState()))
+      cellsStateArray: [...Array(100)].map(() => [...Array(100)].map(() => this.generateRandomState()))
     }
   },
   components: {
