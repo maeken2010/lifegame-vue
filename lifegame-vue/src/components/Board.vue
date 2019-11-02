@@ -1,7 +1,7 @@
 <template>
   <div class="board">
-    <div v-for="(cellsState, n) in cellsStateArray" :key="n">
-      <div v-for="(cellState, m) in cellsState" :key="String(m)+n">
+    <div v-for="(cellsState, n) in cellsStateArray" :key="n" class="row">
+      <div v-for="(cellState, m) in cellsState" :key="String(m)+n" class="col">
         <Cell :state="cellState" />
       </div>
     </div>
@@ -30,5 +30,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.row {
+  display: flex;
+}
 </style>
