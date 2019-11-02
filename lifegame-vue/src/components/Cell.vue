@@ -16,14 +16,14 @@ export default {
 .cell {
   width: 10px;
   height: 10px;
-  border: solid 3px #000000;
+  border: solid 1px #000000;
 }
 
 .alive {
-  color: #000000
+  background: #000000
 }
 
 .dead {
-  color: #ffffff
+  background: #ffffff
 }
 </style>
