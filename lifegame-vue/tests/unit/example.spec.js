@@ -35,4 +35,24 @@ describe("Board.vue", () => {
     const cellArray = wrapper.findAll(Cell);
     expect(cellArray).toHaveLength(100 * 100);
   });
+  describe("generation buttonについて", () => {
+    it("generation buttonを持っている", () => {
+      expect(wrapper.contains("button.generation")).toBe(true);
+    });
+    describe("generation buttonを押したら世代が進む", () => {
+      it("過密は死ぬ", () => {
+        wrapper = mount(Board, {
+          propsData: { size: 3 }
+        });
+        const dieStates = [
+          [true, true, true],
+          [true, true, false],
+          [false, false, false]
+        ];
+        wrapper.setData({ cellsStateArray: dieStates });
+        wrapper.find("button.generation").trigger("click");
+        expect(wrapper.vm.foo[3][3]).toBe(false);
+      });
+    });
+  });
 });
