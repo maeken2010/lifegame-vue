@@ -51,7 +51,7 @@ describe("Board.vue", () => {
         ];
         wrapper.setData({ cellsStateArray: dieStates });
         wrapper.find("button.generation").trigger("click");
-        expect(wrapper.vm.foo[3][3]).toBe(false);
+        expect(wrapper.vm.cellsStateArray[1][1]).toBe(false);
       });
     });
   });
