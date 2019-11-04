@@ -48,7 +48,7 @@ describe("Board.vue", () => {
       expect(wrapper.vm.cellsStateArray[1][1]).toBe(expectState);
     };
     describe("generation buttonを押したら世代が進む", () => {
-      it("過密は死ぬ", () => {
+      it("過密は死", () => {
         const dieStates = [
           [true, true, true],
           [true, true, false],
@@ -56,13 +56,35 @@ describe("Board.vue", () => {
         ];
         stateTest(dieStates, false);
       });
-      it("丁度良いと誕生する", () => {
+      it("誕生は生", () => {
         const liveStates = [
           [true, true, false],
           [true, false, false],
           [false, false, false]
         ];
         stateTest(liveStates, true);
+        const liveStates2 = [
+          [true, true, false],
+          [false, false, false],
+          [false, false, false]
+        ];
+        stateTest(liveStates2, false);
+      });
+      it("生存は生", () => {
+        const liveStates = [
+          [true, false, false],
+          [true, true, false],
+          [false, false, false]
+        ];
+        stateTest(liveStates, true);
+      });
+      it("過疎は死", () => {
+        const liveStates = [
+          [false, false, false],
+          [true, true, false],
+          [false, false, false]
+        ];
+        stateTest(liveStates, false);
       });
     });
   });
