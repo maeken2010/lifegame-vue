@@ -39,19 +39,30 @@ describe("Board.vue", () => {
     it("generation buttonを持っている", () => {
       expect(wrapper.contains("button.generation")).toBe(true);
     });
+    const stateTest = (testStates, expectState) => {
+      wrapper = mount(Board, {
+        propsData: { size: 3 }
+      });
+      wrapper.setData({ cellsStateArray: testStates });
+      wrapper.find("button.generation").trigger("click");
+      expect(wrapper.vm.cellsStateArray[1][1]).toBe(expectState);
+    };
     describe("generation buttonを押したら世代が進む", () => {
       it("過密は死ぬ", () => {
-        wrapper = mount(Board, {
-          propsData: { size: 3 }
-        });
         const dieStates = [
           [true, true, true],
           [true, true, false],
           [false, false, false]
         ];
-        wrapper.setData({ cellsStateArray: dieStates });
-        wrapper.find("button.generation").trigger("click");
-        expect(wrapper.vm.cellsStateArray[1][1]).toBe(false);
+        stateTest(dieStates, false);
+      });
+      it("丁度良いと誕生する", () => {
+        const liveStates = [
+          [true, true, false],
+          [true, false, false],
+          [false, false, false]
+        ];
+        stateTest(liveStates, true);
       });
     });
   });

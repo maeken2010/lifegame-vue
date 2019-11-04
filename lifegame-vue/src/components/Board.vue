@@ -26,7 +26,6 @@ export default {
   components: {
     Cell
   },
-  mounted: function() {},
   methods: {
     generateRandomState: function() {
       return Math.random() >= 0.5; //https://stackoverflow.com/a/36756480
