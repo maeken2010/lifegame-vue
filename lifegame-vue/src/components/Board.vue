@@ -1,5 +1,6 @@
 <template>
   <div class="board">
+    <button @click="nextGeneration" class="generation">next generation</button>
     <div v-for="(cellsState, n) in cellsStateArray" :key="n" class="row">
       <div v-for="(cellState, m) in cellsState" :key="String(m)+n" class="col">
         <Cell :state="cellState" />
@@ -11,19 +12,26 @@
 <script>
 import Cell from "@/components/Cell.vue";
 
+import { calcNextGeneration } from "@/scripts/lifegame.js";
+
 export default {
   name: "Board",
-  data: function () {
+  data: function() {
     return {
-      cellsStateArray: [...Array(100)].map(() => [...Array(100)].map(() => this.generateRandomState()))
-    }
+      cellsStateArray: [...Array(100)].map(() =>
+        [...Array(100)].map(() => this.generateRandomState())
+      )
+    };
   },
   components: {
     Cell
   },
   methods: {
-    generateRandomState: function () {
+    generateRandomState: function() {
       return Math.random() >= 0.5; //https://stackoverflow.com/a/36756480
+    },
+    nextGeneration: function() {
+      this.cellsStateArray = calcNextGeneration(this.cellsStateArray);
     }
   }
 };
