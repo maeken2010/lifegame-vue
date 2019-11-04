@@ -5,7 +5,11 @@ export function calcNextGeneration(statesArray) {
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       const neighborhood = calcNeighborhood(statesArray, i, j);
-      nextStatesArray[i][j] = calcnNextStateByNeighborhood(neighborhood);
+      const currentState = statesArray[i][j];
+      nextStatesArray[i][j] = calcnNextStateByNeighborhood(
+        currentState,
+        neighborhood
+      );
     }
   }
   return nextStatesArray;
@@ -24,11 +28,18 @@ function calcNeighborhood(a, i, j) {
   ];
 }
 
-function calcnNextStateByNeighborhood(neighborhood) {
+function calcnNextStateByNeighborhood(currentState, neighborhood) {
   const aliveNumber = neighborhood.filter(s => s).length;
-  if (2 <= aliveNumber && aliveNumber <= 3) {
-    return true;
-  } else if (aliveNumber <= 1 || 4 <= aliveNumber) {
+  if (currentState) {
+    if (2 <= aliveNumber && aliveNumber <= 3) {
+      return true;
+    } else if (aliveNumber <= 1 || 4 <= aliveNumber) {
+      return false;
+    }
+  } else {
+    if (aliveNumber === 3) {
+      return true;
+    }
     return false;
   }
 }
