@@ -21,6 +21,14 @@ describe("Cell.vue", () => {
     expect(wrapper.classes()).toContain("alive");
     expect(wrapper.classes()).not.toContain("dead");
   });
+  it("Cellは押すと色が反転する", () => {
+    const state = true;
+    const wrapper = factory({ props: { state } });
+    wrapper.find(".cell").trigger("click");
+    expect(wrapper.classes()).toContain("alive");
+    wrapper.find(".cell").trigger("click");
+    expect(wrapper.classes()).toContain("dead");
+  });
 });
 
 describe("Board.vue", () => {
