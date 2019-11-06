@@ -1,6 +1,11 @@
-import { shallowMount, mount } from "@vue/test-utils";
+import Vuex from "vuex";
+import { shallowMount, mount, createLocalVue } from "@vue/test-utils";
+
 import Cell from "@/components/Cell.vue";
 import Board from "@/components/Board.vue";
+
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
 describe("Cell.vue", () => {
   const factory = ({ props }) => {

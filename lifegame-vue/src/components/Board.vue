@@ -10,30 +10,20 @@
 </template>
 
 <script>
-import Cell from "@/components/Cell.vue";
+import { mapState, mapMutations } from "vuex";
 
-import { calcNextGeneration } from "@/scripts/lifegame.js";
+import Cell from "@/components/Cell.vue";
 
 export default {
   name: "Board",
-  data: function() {
-    return {
-      cellsStateArray: [...Array(100)].map(() =>
-        [...Array(100)].map(() => this.generateRandomState())
-      )
-    };
-  },
   components: {
     Cell
   },
-  methods: {
-    generateRandomState: function() {
-      return Math.random() >= 0.5; //https://stackoverflow.com/a/36756480
-    },
-    nextGeneration: function() {
-      this.cellsStateArray = calcNextGeneration(this.cellsStateArray);
-    }
-  }
+  created: function() {
+    this.initCellsState();
+  },
+  computed: mapState(["cellsStateArray"]),
+  methods: mapMutations(["initCellsState", "nextGeneration"])
 };
 </script>
 
