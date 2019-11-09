@@ -4,13 +4,25 @@ import { shallowMount, mount, createLocalVue } from "@vue/test-utils";
 import Cell from "@/components/Cell.vue";
 import Board from "@/components/Board.vue";
 
+import mutations from "@/store/mutations";
+import state from "@/store/state";
+
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe("Cell.vue", () => {
+  let store;
+  beforeEach(() => {
+    store = new Vuex.Store({
+      state,
+      mutations
+    });
+  });
   const factory = ({ props }) => {
     return shallowMount(Cell, {
-      propsData: props
+      propsData: props,
+      store,
+      localVue
     });
   };
 
@@ -37,9 +49,14 @@ describe("Cell.vue", () => {
 });
 
 describe("Board.vue", () => {
+  let store;
   let wrapper;
   beforeEach(() => {
-    wrapper = mount(Board, {});
+    store = new Vuex.Store({
+      state,
+      mutations
+    });
+    wrapper = mount(Board, { store, localVue });
   });
   it("Cellを持っている", () => {
     expect(wrapper.contains(Cell)).toBe(true);
@@ -53,12 +70,22 @@ describe("Board.vue", () => {
       expect(wrapper.contains("button.generation")).toBe(true);
     });
     const stateTest = (testStates, expectState) => {
-      wrapper = mount(Board, {
-        propsData: { size: 3 }
+      store = new Vuex.Store({
+        state,
+        mutations: {
+          initCellsState(state) {
+            state.cellsStateArray = testStates;
+          },
+          nextGeneration: mutations.nextGeneration
+        }
       });
-      wrapper.setData({ cellsStateArray: testStates });
+      wrapper = mount(Board, {
+        store,
+        localVue
+      });
+
       wrapper.find("button.generation").trigger("click");
-      expect(wrapper.vm.cellsStateArray[1][1]).toBe(expectState);
+      expect(store.state.cellsStateArray[1][1]).toBe(expectState);
     };
     describe("generation buttonを押したら世代が進む", () => {
       it("過密は死", () => {
