@@ -38,14 +38,6 @@ describe("Cell.vue", () => {
     expect(wrapper.classes()).toContain("alive");
     expect(wrapper.classes()).not.toContain("dead");
   });
-  it("Cellは押すと色が反転する", () => {
-    const state = true;
-    const wrapper = factory({ props: { state } });
-    wrapper.find(".cell").trigger("click");
-    expect(wrapper.classes()).toContain("alive");
-    wrapper.find(".cell").trigger("click");
-    expect(wrapper.classes()).toContain("dead");
-  });
 });
 
 describe("Board.vue", () => {
@@ -64,6 +56,27 @@ describe("Board.vue", () => {
   it("Boardのデフォルトの大きさは100x100", () => {
     const cellArray = wrapper.findAll(Cell);
     expect(cellArray).toHaveLength(100 * 100);
+  });
+  it("Cellは押すと色が反転する", () => {
+    store = new Vuex.Store({
+      state,
+      mutations: {
+        ...mutations,
+        initCellsState(state) {
+          state.cellsStateArray = [[false]];
+        }
+      }
+    });
+    wrapper = mount(Board, {
+      store,
+      localVue
+    });
+    console.log(wrapper);
+    const wrappedCellComponent = wrapper.find(Cell);
+    wrappedCellComponent.trigger("click");
+    expect(wrappedCellComponent.classes()).toContain("alive");
+    wrappedCellComponent.trigger("click");
+    expect(wrappedCellComponent.classes()).toContain("dead");
   });
   describe("generation buttonについて", () => {
     it("generation buttonを持っている", () => {

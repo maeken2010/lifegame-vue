@@ -9,5 +9,10 @@ export default {
   },
   nextGeneration(state) {
     state.cellsStateArray = calcNextGeneration(state.cellsStateArray);
+  },
+  changeCell(state, { n, m }) {
+    let newState = state.cellsStateArray.slice();
+    newState[n][m] = !state.cellsStateArray[n][m];
+    state.cellsStateArray = newState;
   }
 };

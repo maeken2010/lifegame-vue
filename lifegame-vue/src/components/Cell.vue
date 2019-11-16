@@ -1,13 +1,18 @@
 <template>
-  <div class="cell" :class="state ? 'alive' : 'dead'">
-  </div>
+  <div @click="changeCell(coordinates)" class="cell" :class="state ? 'alive' : 'dead'"></div>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   name: "Cell",
   props: {
-    state: Boolean
+    state: Boolean,
+    coordinates: Object
+  },
+  methods: {
+    ...mapMutations(["changeCell"])
   }
 };
 </script>
@@ -20,10 +25,10 @@ export default {
 }
 
 .alive {
-  background: #000000
+  background: #000000;
 }
 
 .dead {
-  background: #ffffff
+  background: #ffffff;
 }
 </style>

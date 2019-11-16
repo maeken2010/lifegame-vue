@@ -3,7 +3,7 @@
     <button @click="nextGeneration" class="generation">next generation</button>
     <div v-for="(cellsState, n) in cellsStateArray" :key="n" class="row">
       <div v-for="(cellState, m) in cellsState" :key="String(m)+n" class="col">
-        <Cell :state="cellState" />
+        <Cell :state="cellState" :coordinates="{ n, m }" />
       </div>
     </div>
   </div>
@@ -23,7 +23,9 @@ export default {
     this.initCellsState();
   },
   computed: mapState(["cellsStateArray"]),
-  methods: mapMutations(["initCellsState", "nextGeneration"])
+  methods: {
+    ...mapMutations(["initCellsState", "nextGeneration"])
+  }
 };
 </script>
 
