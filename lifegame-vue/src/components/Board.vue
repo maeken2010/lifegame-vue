@@ -3,36 +3,28 @@
     <button @click="nextGeneration" class="generation">next generation</button>
     <div v-for="(cellsState, n) in cellsStateArray" :key="n" class="row">
       <div v-for="(cellState, m) in cellsState" :key="String(m)+n" class="col">
-        <Cell :state="cellState" />
+        <Cell :state="cellState" :coordinates="{ n, m }" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Cell from "@/components/Cell.vue";
+import { mapState, mapMutations } from "vuex";
 
-import { calcNextGeneration } from "@/scripts/lifegame.js";
+import Cell from "@/components/Cell.vue";
 
 export default {
   name: "Board",
-  data: function() {
-    return {
-      cellsStateArray: [...Array(100)].map(() =>
-        [...Array(100)].map(() => this.generateRandomState())
-      )
-    };
-  },
   components: {
     Cell
   },
+  created: function() {
+    this.initCellsState();
+  },
+  computed: mapState(["cellsStateArray"]),
   methods: {
-    generateRandomState: function() {
-      return Math.random() >= 0.5; //https://stackoverflow.com/a/36756480
-    },
-    nextGeneration: function() {
-      this.cellsStateArray = calcNextGeneration(this.cellsStateArray);
-    }
+    ...mapMutations(["initCellsState", "nextGeneration"])
   }
 };
 </script>
